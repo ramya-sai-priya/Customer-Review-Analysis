@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Rating Analysis - Clothing Review Analysis{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fas fa-star me-3"></i>Rating Prediction</h1>
+    <p>Regression Analysis for Rating Prediction (1-5 Stars)</p>
+</div>
+
+<div class="model-selector">
+    <form method="POST" class="row align-items-end">
+        <div class="col-md-8">
+            <label for="model" class="form-label"><i class="fas fa-robot me-2"></i>Select Regressor Model</label>
+            <select name="model" id="model" class="form-control">
+                {% for key, name in regressor_names.items() %}
+                <option value="{{ key }}" {% if key == selected_model %}selected{% endif %}>{{ name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="fas fa-play me-2"></i>Run Analysis
+            </button>
+        </div>
+    </form>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-cog me-2"></i>{{ model_name }} - Regression Metrics
+    </div>
+    <div class="card-body">
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">{{ "%.4f"|format(metrics.mae) }}</div>
+                <div class="metric-label"><i class="fas fa-ruler me-1"></i>MAE</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">{{ "%.4f"|format(metrics.mse) }}</div>
+                <div class="metric-label"><i class="fas fa-square me-1"></i>MSE</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">{{ "%.4f"|format(metrics.rmse) }}</div>
+                <div class="metric-label"><i class="fas fa-square-root-alt me-1"></i>RMSE</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">{{ "%.4f"|format(metrics.r2) }}</div>
+                <div class="metric-label"><i class="fas fa-percentage me-1"></i>R2 Score</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-chart-scatter me-2"></i>Actual vs Predicted Scatter Plot
+    </div>
+    <div class="card-body">
+        <div class="plot-container">
+            <img src="data:image/png;base64,{{ scatter_plot }}" alt="Scatter Plot">
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <i class="fas fa-info-circle me-2"></i>Metric Descriptions
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <h6><i class="fas fa-ruler text-warning me-2"></i>MAE (Mean Absolute Error)</h6>
+                <p class="small">Average of absolute differences between predicted and actual values.</p>
+            </div>
+            <div class="col-md-3">
+                <h6><i class="fas fa-square text-warning me-2"></i>MSE (Mean Squared Error)</h6>
+                <p class="small">Average of squared differences between predicted and actual values.</p>
+            </div>
+            <div class="col-md-3">
+                <h6><i class="fas fa-square-root-alt text-warning me-2"></i>RMSE (Root MSE)</h6>
+                <p class="small">Square root of MSE, in the same units as the target variable.</p>
+            </div>
+            <div class="col-md-3">
+                <h6><i class="fas fa-percentage text-warning me-2"></i>R2 Score</h6>
+                <p class="small">Proportion of variance explained by the model (0-1, higher is better).</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

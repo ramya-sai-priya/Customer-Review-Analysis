@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Clothing Review Analysis{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fas fa-home me-3"></i>Dashboard</h1>
+    <p>Welcome to the Clothing Review Analysis System</p>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <i class="fas fa-comments stat-icon"></i>
+            <div class="stat-value">{{ "{:,}".format(stats.total_reviews) }}</div>
+            <div class="stat-label">Total Reviews</div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <i class="fas fa-star stat-icon"></i>
+            <div class="stat-value">{{ "%.2f"|format(stats.avg_rating) }}</div>
+            <div class="stat-label">Average Rating</div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <i class="fas fa-thumbs-up stat-icon"></i>
+            <div class="stat-value">{{ "%.1f"|format(stats.recommended_pct) }}%</div>
+            <div class="stat-label">Recommended</div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <i class="fas fa-building stat-icon"></i>
+            <div class="stat-value">{{ stats.departments }}</div>
+            <div class="stat-label">Departments</div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {% if current_user.user_type == 'engineer' %}
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <i class="fas fa-chart-bar me-2"></i>Exploratory Data Analysis
+            </div>
+            <div class="card-body">
+                <p><i class="fas fa-info-circle me-2"></i>Explore the clothing reviews dataset with comprehensive visualizations and statistics.</p>
+                <ul>
+                    <li><i class="fas fa-chart-pie me-2"></i>Rating Distribution</li>
+                    <li><i class="fas fa-chart-line me-2"></i>Recommendation Analysis</li>
+                    <li><i class="fas fa-chart-area me-2"></i>Department Statistics</li>
+                </ul>
+                <a href="{{ url_for('eda') }}" class="btn btn-primary">
+                    <i class="fas fa-arrow-right me-2"></i>Go to EDA
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <i class="fas fa-thumbs-up me-2"></i>Recommendation Analysis
+            </div>
+            <div class="card-body">
+                <p><i class="fas fa-info-circle me-2"></i>Classification analysis to predict if a product will be recommended.</p>
+                <ul>
+                    <li><i class="fas fa-check-circle me-2"></i>Accuracy, Precision, Recall, F1</li>
+                    <li><i class="fas fa-table me-2"></i>Confusion Matrix</li>
+                    <li><i class="fas fa-chart-line me-2"></i>ROC AUC Curve</li>
+                </ul>
+                <a href="{{ url_for('recommendation') }}" class="btn btn-primary">
+                    <i class="fas fa-arrow-right me-2"></i>Go to Classification
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <i class="fas fa-star me-2"></i>Rating Prediction
+            </div>
+            <div class="card-body">
+                <p><i class="fas fa-info-circle me-2"></i>Regression analysis to predict product ratings.</p>
+                <ul>
+                    <li><i class="fas fa-calculator me-2"></i>MAE, MSE, RMSE, R2 Score</li>
+                    <li><i class="fas fa-chart-scatter me-2"></i>Scatter Plot Analysis</li>
+                    <li><i class="fas fa-balance-scale me-2"></i>Model Comparison</li>
+                </ul>
+                <a href="{{ url_for('rating') }}" class="btn btn-primary">
+                    <i class="fas fa-arrow-right me-2"></i>Go to Regression
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <i class="fas fa-balance-scale me-2"></i>Performance Comparison
+            </div>
+            <div class="card-body">
+                <p><i class="fas fa-info-circle me-2"></i>Compare all ML models side by side.</p>
+                <ul>
+                    <li><i class="fas fa-brain me-2"></i>RBM, Gradient Boosting</li>
+                    <li><i class="fas fa-rocket me-2"></i>XGBoost</li>
+                    <li><i class="fas fa-network-wired me-2"></i>MTNN with Extra Trees</li>
+                </ul>
+                <a href="{{ url_for('comparison') }}" class="btn btn-primary">
+                    <i class="fas fa-arrow-right me-2"></i>Go to Comparison
+                </a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <i class="fas fa-chart-bar me-2"></i>Exploratory Data Analysis
+            </div>
+            <div class="card-body">
+                <p><i class="fas fa-info-circle me-2"></i>Explore the clothing reviews dataset with comprehensive visualizations.</p>
+                <a href="{{ url_for('eda') }}" class="btn btn-primary">
+                    <i class="fas fa-arrow-right me-2"></i>Go to EDA
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <i class="fas fa-magic me-2"></i>Batch Prediction
+            </div>
+            <div class="card-body">
+                <p><i class="fas fa-info-circle me-2"></i>Upload your test data and get predictions for recommendations and ratings.</p>
+                <a href="{{ url_for('prediction') }}" class="btn btn-primary">
+                    <i class="fas fa-arrow-right me-2"></i>Go to Prediction
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <i class="fas fa-robot me-2"></i>Machine Learning Models
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3 text-center mb-3">
+                <i class="fas fa-brain" style="font-size: 3rem; color: #DAA520;"></i>
+                <h5 class="mt-2">RBM</h5>
+                <small>Restricted Boltzmann Machine with Logistic/Ridge Regression</small>
+            </div>
+            <div class="col-md-3 text-center mb-3">
+                <i class="fas fa-chart-line" style="font-size: 3rem; color: #DAA520;"></i>
+                <h5 class="mt-2">Gradient Boosting</h5>
+                <small>Ensemble method for classification and regression</small>
+            </div>
+            <div class="col-md-3 text-center mb-3">
+                <i class="fas fa-rocket" style="font-size: 3rem; color: #DAA520;"></i>
+                <h5 class="mt-2">XGBoost</h5>
+                <small>Extreme Gradient Boosting algorithm</small>
+            </div>
+            <div class="col-md-3 text-center mb-3">
+                <i class="fas fa-network-wired" style="font-size: 3rem; color: #DAA520;"></i>
+                <h5 class="mt-2">MTNN + ERT</h5>
+                <small>Multi-Task Neural Network with Extremely Randomized Trees</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

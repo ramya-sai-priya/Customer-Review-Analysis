@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - Clothing Review Analysis{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="icon">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <h2>Create Account</h2>
+            <p class="text-muted">Join our Clothing Review Analysis Platform</p>
+        </div>
+        
+        <form method="POST" action="{{ url_for('register') }}">
+            <div class="mb-3">
+                <label for="name" class="form-label">
+                    <i class="fas fa-user me-2"></i>Full Name
+                </label>
+                <input type="text" class="form-control" id="name" name="name" required placeholder="Enter your full name">
+            </div>
+            
+            <div class="mb-3">
+                <label for="mobile" class="form-label">
+                    <i class="fas fa-phone me-2"></i>Mobile Number
+                </label>
+                <input type="tel" class="form-control" id="mobile" name="mobile" required placeholder="Enter your mobile number">
+            </div>
+            
+            <div class="mb-3">
+                <label for="email" class="form-label">
+                    <i class="fas fa-envelope me-2"></i>Email Address
+                </label>
+                <input type="email" class="form-control" id="email" name="email" required placeholder="Enter your email">
+            </div>
+            
+            <div class="mb-3">
+                <label for="address" class="form-label">
+                    <i class="fas fa-map-marker-alt me-2"></i>Address
+                </label>
+                <textarea class="form-control" id="address" name="address" rows="2" required placeholder="Enter your address"></textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label for="user_type" class="form-label">
+                    <i class="fas fa-user-tag me-2"></i>Account Type
+                </label>
+                <select class="form-control" id="user_type" name="user_type" required>
+                    <option value="user" {% if request.args.get('type') == 'user' %}selected{% endif %}>Regular User</option>
+                    <option value="engineer" {% if request.args.get('type') == 'engineer' %}selected{% endif %}>Engineer</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label for="password" class="form-label">
+                    <i class="fas fa-lock me-2"></i>Password
+                </label>
+                <input type="password" class="form-control" id="password" name="password" required placeholder="Create a password">
+            </div>
+            
+            <div class="mb-4">
+                <label for="confirm_password" class="form-label">
+                    <i class="fas fa-lock me-2"></i>Confirm Password
+                </label>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required placeholder="Confirm your password">
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100 mb-3">
+                <i class="fas fa-user-plus me-2"></i>Register
+            </button>
+            
+            <div class="text-center">
+                <p class="mb-0">Already have an account? <a href="{{ url_for('login') }}" style="color: #DAA520;">Login here</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

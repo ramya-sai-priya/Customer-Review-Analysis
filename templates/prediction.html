@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}Batch Prediction - Clothing Review Analysis{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fas fa-magic me-3"></i>Batch Prediction</h1>
+    <p>Upload your test data (CSV) to get predictions for recommendations and ratings</p>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-upload me-2"></i>Upload Test Data
+    </div>
+    <div class="card-body">
+        <form method="POST" enctype="multipart/form-data">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="classifier" class="form-label"><i class="fas fa-thumbs-up me-2"></i>Select Classifier</label>
+                    <select name="classifier" id="classifier" class="form-control">
+                        {% for key, name in classifier_names.items() %}
+                        <option value="{{ key }}" {% if key == selected_classifier %}selected{% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="regressor" class="form-label"><i class="fas fa-star me-2"></i>Select Regressor</label>
+                    <select name="regressor" id="regressor" class="form-control">
+                        {% for key, name in regressor_names.items() %}
+                        <option value="{{ key }}" {% if key == selected_regressor %}selected{% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            
+            <div class="file-upload mb-4">
+                <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
+                <h4>Upload CSV File</h4>
+                <p class="text-muted">Your CSV should contain columns: Title, Review Text, Positive Feedback Count, Division Name, Department Name, Class Name</p>
+                <input type="file" name="file" id="file" class="form-control" accept=".csv" required style="max-width: 400px; margin: 0 auto;">
+            </div>
+            
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-play me-2"></i>Run Predictions
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if predictions %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-table me-2"></i>Prediction Results ({{ predictions|length }} samples)
+    </div>
+    <div class="card-body">
+        <div class="prediction-table table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-hashtag me-2"></i>#</th>
+                        <th><i class="fas fa-heading me-2"></i>Title</th>
+                        <th><i class="fas fa-thumbs-up me-2"></i>Recommendation</th>
+                        <th><i class="fas fa-star me-2"></i>Predicted Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pred in predictions %}
+                    <tr>
+                        <td>{{ pred.index }}</td>
+                        <td>{{ pred.title if pred.title else '(No Title)' }}</td>
+                        <td>
+                            {% if pred.recommendation == 'Recommended' %}
+                            <span class="badge bg-success"><i class="fas fa-check me-1"></i>{{ pred.recommendation }}</span>
+                            {% else %}
+                            <span class="badge bg-danger"><i class="fas fa-times me-1"></i>{{ pred.recommendation }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="badge bg-warning text-dark">
+                                <i class="fas fa-star me-1"></i>{{ pred.rating }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="card mt-4">
+    <div class="card-header">
+        <i class="fas fa-info-circle me-2"></i>CSV File Format
+    </div>
+    <div class="card-body">
+        <h6>Required Columns:</h6>
+        <ul>
+            <li><strong>Title</strong> - Review title (can be empty)</li>
+            <li><strong>Review Text</strong> - Full review text</li>
+            <li><strong>Positive Feedback Count</strong> - Number of positive feedback</li>
+            <li><strong>Division Name</strong> - Product division</li>
+            <li><strong>Department Name</strong> - Product department</li>
+            <li><strong>Class Name</strong> - Product class</li>
+        </ul>
+        <div class="alert alert-info">
+            <i class="fas fa-lightbulb me-2"></i>
+            <strong>Tip:</strong> You can use a subset of the original dataset as test data. The system will preprocess the data automatically.
+        </div>
+    </div>
+</div>
+{% endblock %}

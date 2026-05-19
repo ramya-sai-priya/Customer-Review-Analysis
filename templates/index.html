@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome - Clothing Review Analysis{% endblock %}
+
+{% block content %}
+<div class="welcome-section">
+    <div class="welcome-icon">
+        <i class="fas fa-tshirt"></i>
+    </div>
+    <h1 class="display-4 mb-4" style="color: #B8860B;">Clothing Review Analysis System</h1>
+    <p class="lead mb-5" style="color: #333;">Analyze clothing reviews using advanced Machine Learning algorithms</p>
+    
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-user-tie feature-icon"></i>
+                    <h4>Engineer</h4>
+                    <p>Access ML analysis tools including Classification, Regression, and Model Comparison</p>
+                    <a href="{{ url_for('register') }}?type=engineer" class="btn btn-primary">
+                        <i class="fas fa-user-plus me-2"></i>Sign Up as Engineer
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-user feature-icon"></i>
+                    <h4>Regular User</h4>
+                    <p>Upload test data and get predictions for recommendations and ratings</p>
+                    <a href="{{ url_for('register') }}?type=user" class="btn btn-primary">
+                        <i class="fas fa-user-plus me-2"></i>Sign Up as User
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-sign-in-alt me-2"></i>Already have an account?
+                </div>
+                <div class="card-body text-center">
+                    <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3 class="mb-4" style="color: #B8860B;"><i class="fas fa-cogs me-2"></i>Machine Learning Models Used</h3>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <i class="fas fa-brain stat-icon"></i>
+                <h5>RBM</h5>
+                <small>Restricted Boltzmann Machine</small>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <i class="fas fa-chart-line stat-icon"></i>
+                <h5>Gradient Boosting</h5>
+                <small>Ensemble Learning</small>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <i class="fas fa-rocket stat-icon"></i>
+                <h5>XGBoost</h5>
+                <small>Extreme Gradient Boosting</small>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <i class="fas fa-network-wired stat-icon"></i>
+                <h5>MTNN + ERT</h5>
+                <small>Multi-Task Neural Network with Extra Trees</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

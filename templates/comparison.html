@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}Performance Comparison - Clothing Review Analysis{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fas fa-balance-scale me-3"></i>Performance Comparison</h1>
+    <p>Compare all Machine Learning models for Classification and Regression tasks</p>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-thumbs-up me-2"></i>Classification Model Comparison
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped comparison-table">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-robot me-2"></i>Model</th>
+                        <th><i class="fas fa-bullseye me-2"></i>Accuracy</th>
+                        <th><i class="fas fa-crosshairs me-2"></i>Precision</th>
+                        <th><i class="fas fa-redo me-2"></i>Recall</th>
+                        <th><i class="fas fa-balance-scale me-2"></i>F1 Score</th>
+                        <th><i class="fas fa-chart-area me-2"></i>ROC AUC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key, result in classification_results.items() %}
+                    <tr>
+                        <td><strong>{{ result.name }}</strong></td>
+                        <td>{{ "%.4f"|format(result.accuracy) }}</td>
+                        <td>{{ "%.4f"|format(result.precision) }}</td>
+                        <td>{{ "%.4f"|format(result.recall) }}</td>
+                        <td>{{ "%.4f"|format(result.f1) }}</td>
+                        <td>{{ "%.4f"|format(result.roc_auc) if result.roc_auc else 'N/A' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="plot-container mt-4">
+            <img src="data:image/png;base64,{{ classification_comparison }}" alt="Classification Comparison">
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-star me-2"></i>Regression Model Comparison
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped comparison-table">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-robot me-2"></i>Model</th>
+                        <th><i class="fas fa-ruler me-2"></i>MAE</th>
+                        <th><i class="fas fa-square me-2"></i>MSE</th>
+                        <th><i class="fas fa-square-root-alt me-2"></i>RMSE</th>
+                        <th><i class="fas fa-percentage me-2"></i>R2 Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key, result in regression_results.items() %}
+                    <tr>
+                        <td><strong>{{ result.name }}</strong></td>
+                        <td>{{ "%.4f"|format(result.mae) }}</td>
+                        <td>{{ "%.4f"|format(result.mse) }}</td>
+                        <td>{{ "%.4f"|format(result.rmse) }}</td>
+                        <td>{{ "%.4f"|format(result.r2) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="plot-container mt-4">
+            <img src="data:image/png;base64,{{ regression_comparison }}" alt="Regression Comparison">
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-info-circle me-2"></i>Model Descriptions
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100" style="border-color: #DAA520;">
+                    <div class="card-body">
+                        <h5><i class="fas fa-brain text-warning me-2"></i>RBM (Restricted Boltzmann Machine)</h5>
+                        <p>A generative stochastic artificial neural network that can learn probability distributions. Combined with Logistic Regression for classification and Ridge Regression for regression tasks.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card h-100" style="border-color: #DAA520;">
+                    <div class="card-body">
+                        <h5><i class="fas fa-chart-line text-warning me-2"></i>Gradient Boosting</h5>
+                        <p>An ensemble learning method that builds models sequentially, with each new model correcting errors made by previous ones.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card h-100" style="border-color: #DAA520;">
+                    <div class="card-body">
+                        <h5><i class="fas fa-rocket text-warning me-2"></i>XGBoost</h5>
+                        <p>Extreme Gradient Boosting - an optimized distributed gradient boosting library designed to be highly efficient, flexible, and portable.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card h-100" style="border-color: #DAA520;">
+                    <div class="card-body">
+                        <h5><i class="fas fa-network-wired text-warning me-2"></i>MTNN with Extra Trees (ERT)</h5>
+                        <p>Multi-Task Neural Network combined with Extremely Randomized Trees. Uses Extra Trees ensemble with random splits for improved generalization.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
